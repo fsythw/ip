@@ -1,7 +1,12 @@
+import java.util.Scanner;
+
 public class Tux {
 
     private static final String NAME = "Tux";
     private static final String DIVIDER = "____________________________________________________________";
+    private static final String EXIT = "bye";
+
+    private static final Scanner scanner = new Scanner(System.in);
 
     private static String greetUser() {
         return "Hello! I'm %s\nWhat can I do for you?".formatted(NAME);
@@ -14,8 +19,21 @@ public class Tux {
     private static void formatMessage(String message) {
         System.out.println(DIVIDER);
         System.out.println(message);
-
+        System.out.println(DIVIDER);
     }
+
+    private static void handleUserInput() {
+        while (true) {
+            String userInput = scanner.nextLine();
+
+            if (userInput.equals(EXIT)) {
+                break;
+            } else {
+                formatMessage(userInput);
+            }
+        }
+    }
+
     public static void main(String[] args) {
 //        String logo = " ____        _        \n"
 //                + "|  _ \\ _   _| | _____ \n"
@@ -25,7 +43,8 @@ public class Tux {
 //        String name = "Tux";
 //        System.out.println("Hello from " + name);
         formatMessage(greetUser());
+        handleUserInput();
         formatMessage(exit());
-        System.out.println(DIVIDER);
+
     }
 }
