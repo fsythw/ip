@@ -11,7 +11,7 @@ public class Tux {
     private static final String TASKLIST = "list";
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final List<String> taskList = new ArrayList<>();
+    private static final List<Task> taskList = new ArrayList<Task>();
     private static final StringBuilder sb = new StringBuilder();
 
     private static String greetUser() {
@@ -29,17 +29,32 @@ public class Tux {
     }
 
     private static void addToTaskList(String userInput) {
-        Tux.taskList.add(userInput);
+        Tux.taskList.add(new Task(userInput));
         formatMessage("added: %s".formatted(userInput));
     }
 
     private static void enumerateTaskList() {
+        Tux.sb.setLength(0);
         for (int i = 0; i < Tux.taskList.size(); i++) {
-            //formatMessage("%s. %s".formatted(i+1, taskList.get(i)));
-            Tux.sb.append("%s. %s\n".formatted(i+1, taskList.get(i)));
+            Tux.sb.append("%s.%s\n".formatted(i+1, taskList.get(i).getTaskDescription()));
         }
         formatMessage(sb.toString());
     }
+
+    private static void markDone(String index) {
+        int taskIndex = Integer.parseInt(index);
+        Task currentTask = Tux.taskList.get(taskIndex-1);
+        currentTask.markDone();
+        formatMessage("Nice! I've marked this task as done:\n%s".formatted(currentTask.getTaskDescription()));
+    }
+
+    private static void markUndone(String index) {
+        int taskIndex = Integer.parseInt(index);
+        Task currentTask = Tux.taskList.get(taskIndex-1);
+        currentTask.markUndone();
+        formatMessage("Ok, I've marked this task as not done yet:\n%s".formatted(currentTask.getTaskDescription()));
+    }
+
 
 
     private static void handleUserInput() {
@@ -48,11 +63,14 @@ public class Tux {
 
             if (userInput.equals(EXIT)) {
                 break;
-            } else if (userInput.equals(TASKLIST)){
+            } else if (userInput.equals(TASKLIST)) {
                 enumerateTaskList();
+            } else if (userInput.substring(0,4).equals("mark")) {
+                markDone(userInput.substring(5));
+            } else if (userInput.substring(0,6).equals("unmark")){
+                markUndone(userInput.substring(7));
             } else {
                 addToTaskList(userInput);
-
             }
         }
     }
