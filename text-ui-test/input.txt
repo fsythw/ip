@@ -1,0 +1,15 @@
+todo do homework
+todo buy bread
+todo buy bananas
+deadline submit homework /by Sunday night
+event cca meeting /from 8pm /to 9pm
+event go out with friends /from Wednesday morning /to Wednesday night
+list
+mark 1
+mark 3
+mark 4
+unmark 1
+unmark 3
+mark 2
+list
+bye
