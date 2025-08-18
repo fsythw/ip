@@ -9,6 +9,9 @@ public class Tux {
     private static final String DIVIDER = "____________________________________________________________";
     private static final String EXIT = "bye";
     private static final String TASKLIST = "list";
+    private static final String BY = "/by";
+    private static final String FROM = "/from";
+    private static final String TO = "/to";
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<Task> taskList = new ArrayList<Task>();
@@ -28,9 +31,11 @@ public class Tux {
         System.out.println(DIVIDER);
     }
 
-    private static void addToTaskList(String userInput) {
-        Tux.taskList.add(new Task(userInput));
-        formatMessage("added: %s".formatted(userInput));
+    private static void addToTaskList(Task task) {
+        Tux.taskList.add(task);
+        formatMessage("Got it. I've added this task:\n"
+                + task.getTaskDescription()
+                + "\nNow you have %d tasks in the list.".formatted(Tux.taskList.size()));
     }
 
     private static void enumerateTaskList() {
@@ -55,6 +60,31 @@ public class Tux {
         formatMessage("Ok, I've marked this task as not done yet:\n%s".formatted(currentTask.getTaskDescription()));
     }
 
+    public static void createToDo(String userInput) {
+        Task newToDo = new ToDo(userInput);
+        addToTaskList(newToDo);
+    }
+
+    public static void createDeadline(String userInput) {
+        String description = userInput.split(BY)[0].trim();
+        String by = userInput.split(BY)[1].trim();
+
+        Task newDeadline = new Deadline(description, by);
+        addToTaskList(newDeadline);
+    }
+
+    public static void createEvent(String userInput) {
+        int fromIndex = userInput.indexOf(FROM);
+        int toIndex = userInput.indexOf(TO);
+
+        String description = userInput.substring(0, fromIndex).trim();
+        String from = userInput.substring(fromIndex + FROM.length(), toIndex).trim();
+        String to = userInput.substring(toIndex + TO.length()).trim();
+
+        Task newEvent = new Event(description, from, to);
+        addToTaskList(newEvent);
+    }
+
 
 
     private static void handleUserInput() {
@@ -69,8 +99,14 @@ public class Tux {
                 markDone(userInput.substring(5));
             } else if (userInput.substring(0,6).equals("unmark")){
                 markUndone(userInput.substring(7));
+            } else if (userInput.substring(0,4).equals("todo")) {
+                createToDo(userInput.substring(5));
+            } else if (userInput.substring(0,8).equals("deadline")) {
+                createDeadline(userInput.substring(9));
+            } else if (userInput.substring(0,5).equals("event")) {
+                createEvent(userInput.substring(6));
             } else {
-                addToTaskList(userInput);
+                continue;
             }
         }
     }
