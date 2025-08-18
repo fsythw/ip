@@ -1,3 +1,5 @@
+import exceptions.TaskException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -60,12 +62,24 @@ public class Tux {
         formatMessage("Ok, I've marked this task as not done yet:\n%s".formatted(currentTask.getTaskDescription()));
     }
 
-    public static void createToDo(String userInput) {
+    public static void createToDo(String userInput) throws TaskException {
+        if (userInput.isBlank()) {
+            throw new TaskException("Description is empty!");
+        }
+
         Task newToDo = new ToDo(userInput);
         addToTaskList(newToDo);
     }
 
-    public static void createDeadline(String userInput) {
+    public static void createDeadline(String userInput) throws TaskException {
+        if (!userInput.contains(BY)) {
+            throw new TaskException("Deadline task must contain /by!");
+        }
+
+        String[] handledUserInput = userInput.split(BY);
+        if (handledUserInput.length != 2) {
+            throw new TaskException("Incorrect deadline format");
+        }
         String description = userInput.split(BY)[0].trim();
         String by = userInput.split(BY)[1].trim();
 
@@ -73,9 +87,13 @@ public class Tux {
         addToTaskList(newDeadline);
     }
 
-    public static void createEvent(String userInput) {
+    public static void createEvent(String userInput) throws TaskException {
         int fromIndex = userInput.indexOf(FROM);
         int toIndex = userInput.indexOf(TO);
+
+        if (fromIndex == -1 || toIndex == -1) {
+            throw new TaskException("Event task must contain /from and /to!");
+        }
 
         String description = userInput.substring(0, fromIndex).trim();
         String from = userInput.substring(fromIndex + FROM.length(), toIndex).trim();
@@ -87,7 +105,7 @@ public class Tux {
 
 
 
-    private static void handleUserInput() {
+    private static void handleUserInput() throws TaskException {
         while (true) {
             String userInput = scanner.nextLine();
 
@@ -111,7 +129,7 @@ public class Tux {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TaskException {
 //        String logo = " ____        _        \n"
 //                + "|  _ \\ _   _| | _____ \n"
 //                + "| | | | | | | |/ / _ \\\n"
