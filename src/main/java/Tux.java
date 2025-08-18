@@ -103,6 +103,12 @@ public class Tux {
         addToTaskList(newEvent);
     }
 
+    public static void deleteTask(String index) {
+        int taskIndex = Integer.parseInt(index);
+        Task removedTask = Tux.taskList.remove(taskIndex-1);
+        formatMessage("Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription()) + "\nNow you have %d tasks in the list.".formatted(Tux.taskList.size()));
+    }
+
 
 
     private static void handleUserInput() throws TaskException {
@@ -123,6 +129,8 @@ public class Tux {
                 createDeadline(userInput.substring(9));
             } else if (userInput.substring(0,5).equals("event")) {
                 createEvent(userInput.substring(6));
+            } else if (userInput.substring(0,6).equals("delete")) {
+                deleteTask(userInput.substring(7));
             } else {
                 continue;
             }
