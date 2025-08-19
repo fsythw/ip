@@ -2,7 +2,7 @@ import exceptions.TaskException;
 
 import java.util.ArrayList;
 import java.util.List;
-import types.Instruction;
+import types.Command;
 
 public class InputHandler {
 
@@ -14,11 +14,11 @@ public class InputHandler {
     private static final StringBuilder sb = new StringBuilder();
 
     public String handleInput(String userInput) {
-        Instruction instruction = getInstruction(userInput.trim().split(" ")[0]);
+        Command command = getInstruction(userInput.trim().split(" ")[0]);
         String msg = userInput.substring(userInput.trim().split(" ")[0].length()).trim();
 
         try {
-            return switch (instruction) {
+            return switch (command) {
                 case MARK -> markDone(msg);
                 case UNMARK -> markUndone(msg);
                 case TODO -> createToDo(msg);
@@ -33,8 +33,8 @@ public class InputHandler {
         }
     }
 
-    private Instruction getInstruction(String instruction) {
-        return Instruction.valueOf(instruction.toUpperCase());
+    private Command getInstruction(String instruction) {
+        return Command.valueOf(instruction.toUpperCase());
     }
 
     private String addToTaskList(Task task) {

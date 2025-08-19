@@ -1,6 +1,6 @@
 package types;
 
-public enum Instruction {
+public enum Command {
     MARK,
     UNMARK,
     TODO,
