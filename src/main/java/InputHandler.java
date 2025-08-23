@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import types.Command;
 
@@ -143,8 +145,14 @@ public class InputHandler {
             throw new TaskException("Incorrect deadline format");
         }
         String description = userInput.split(BY)[0].trim();
-        String by = userInput.split(BY)[1].trim();
+        String byStr = userInput.split(BY)[1].trim();
 
+        LocalDate by;
+        try {
+            by = LocalDate.parse(byStr);
+        } catch (DateTimeParseException e) {
+            throw new TaskException("incorrect format for deadline task");
+        }
         Task newDeadline = new Deadline(description, by);
         return addToTaskList(newDeadline);
     }
@@ -158,9 +166,16 @@ public class InputHandler {
         }
 
         String description = userInput.substring(0, fromIndex).trim();
-        String from = userInput.substring(fromIndex + FROM.length(), toIndex).trim();
-        String to = userInput.substring(toIndex + TO.length()).trim();
+        String fromStr = userInput.substring(fromIndex + FROM.length(), toIndex).trim();
+        String toStr = userInput.substring(toIndex + TO.length()).trim();
 
+        LocalDate from, to;
+        try {
+            from = LocalDate.parse(fromStr);
+            to = LocalDate.parse(toStr);
+        } catch (DateTimeParseException e) {
+            throw new TaskException("incorrect format for deadline task");
+        }
         Task newEvent = new Event(description, from, to);
         return addToTaskList(newEvent);
     }
