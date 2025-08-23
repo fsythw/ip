@@ -7,9 +7,10 @@ import java.lang.StringBuilder;
 
 public class Tux {
 
-    private static final String NAME = "Tux";
-    private static final String DIVIDER = "____________________________________________________________";
-    private static final String EXIT = "bye";
+    public static final String NAME = "Tux";
+    public static final String DIVIDER = "____________________________________________________________";
+    public static final String EXIT = "bye";
+    public static final String FILE_NAME = "./data/tux.dat";
 
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -30,9 +31,6 @@ public class Tux {
         System.out.println(DIVIDER);
     }
 
-
-
-
     private static void handleUserInput() throws TaskException {
         while (true) {
             String userInput = scanner.nextLine().trim();
@@ -40,20 +38,17 @@ public class Tux {
             if (userInput.equals(EXIT)) {
                 break;
             }
-//
             String result = ih.handleInput(userInput);
+
             formatMessage(result);
         }
     }
 
     public static void main(String[] args) throws TaskException {
-//        String logo = " ____        _        \n"
-//                + "|  _ \\ _   _| | _____ \n"
-//                + "| | | | | | | |/ / _ \\\n"
-//                + "| |_| | |_| |   <  __/\n"
-//                + "|____/ \\__,_|_|\\_\\___|\n";
-//        String name = "Tux";
-//        System.out.println("Hello from " + name);
+
+        List<Task> loadedTasks = InputHandler.loadTasks(FILE_NAME);
+        ih.setTaskList(loadedTasks);
+
         formatMessage(greetUser());
         handleUserInput();
         formatMessage(exit());
