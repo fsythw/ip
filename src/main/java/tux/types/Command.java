@@ -1,4 +1,4 @@
-package types;
+package tux.types;
 
 public enum Command {
     MARK,

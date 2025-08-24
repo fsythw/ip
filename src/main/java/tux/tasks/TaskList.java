@@ -1,4 +1,4 @@
-package tasks;
+package tux.tasks;
 
 import java.util.ArrayList;
 import java.util.List;

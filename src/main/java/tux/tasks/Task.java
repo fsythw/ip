@@ -1,4 +1,4 @@
-package tasks;
+package tux.tasks;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package exceptions;
+package tux.exceptions;
 
 public class TaskException extends Exception {
     public TaskException(String msg) {
