@@ -9,6 +9,14 @@ public class Task implements Serializable {
         this.isDone = false;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public boolean getDone() {
+        return this.isDone;
+    }
+
     public void markDone() {
         this.isDone = true;
     }
@@ -17,9 +25,7 @@ public class Task implements Serializable {
         this.isDone = false;
     }
 
-    public String getStatus() {
-        return this.isDone ? "[X]" : "[ ]";
-    }
+
     public String getTaskDescription() {
         String status = this.isDone ? "[X]" : "[ ]";
         return "%s %s".formatted(status, this.description);

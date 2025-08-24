@@ -2,13 +2,11 @@ import exceptions.TaskException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
@@ -20,9 +18,15 @@ public class InputHandler {
     private static final String FROM = "/from";
     private static final String TO = "/to";
 
-    private static final List<Task> taskList = new ArrayList<Task>();
+    private final TaskList taskList;
+    private final Storage storage;
+    //private static final List<Task> taskList = new ArrayList<Task>();
     private static final StringBuilder sb = new StringBuilder();
 
+    public InputHandler(TaskList taskList, Storage storage) {
+        this.taskList = taskList;
+        this.storage = storage;
+    }
     public String handleInput(String userInput) {
         Command command = getInstruction(userInput.trim().split(" ")[0]);
         String msg = userInput.substring(userInput.trim().split(" ")[0].length()).trim();
@@ -48,55 +52,14 @@ public class InputHandler {
     }
 
     public void setTaskList(List<Task> tasks) {
-        taskList.clear();
-        taskList.addAll(tasks);
+        this.taskList.clear();
+        this.taskList.addAll(tasks);
     }
 
-    public static List<Task> loadTasks(String filepath) {
-        List<Task> tasks = new ArrayList<>();
-        try {
-            java.nio.file.Path path = java.nio.file.Paths.get(filepath);
-            if (!java.nio.file.Files.exists(path)) {
-                java.nio.file.Files.createDirectories(path.getParent());
-                java.nio.file.Files.createFile(path);
-                return tasks;
-            }
 
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filepath))) {
-                Object obj = ois.readObject();
-                if (obj instanceof List<?>) {
-                    for (Object o : (List<?>) obj) {
-                        if (o instanceof Task) {
-                            tasks.add((Task) o);
-                        }
-                    }
-                }
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Could not load tasks: " + e.getMessage());
-        }
-
-        return tasks;
-    }
-
-    private void saveTasks() {
-        try {
-            java.nio.file.Path path = java.nio.file.Paths.get(Tux.FILE_NAME);
-            if (!java.nio.file.Files.exists(path.getParent())) {
-                java.nio.file.Files.createDirectories(path.getParent());
-            }
-
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Tux.FILE_NAME))) {
-                oos.writeObject(new ArrayList<>(taskList));
-            }
-        } catch (IOException e) {
-            System.out.println("Could not save tasks: " + e.getMessage());
-        }
-    }
-
-    private String addToTaskList(Task task) {
+    private String addToTaskList(Task task) throws TaskException {
         taskList.add(task);
-        saveTasks();
+        storage.save(taskList);
         return "Got it. I've added this task:\n"
                 + task.getTaskDescription()
                 + "\nNow you have %d tasks in the list.".formatted(taskList.size());
@@ -110,19 +73,19 @@ public class InputHandler {
         return sb.toString();
     }
 
-    private String markDone(String index) {
+    private String markDone(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
         Task currentTask = taskList.get(taskIndex-1);
         currentTask.markDone();
-        saveTasks();
+        storage.save(taskList);
         return "Nice! I've marked this task as done:\n%s".formatted(currentTask.getTaskDescription());
     }
 
-    private String markUndone(String index) {
+    private String markUndone(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
         Task currentTask = taskList.get(taskIndex-1);
         currentTask.markUndone();
-        saveTasks();
+        storage.save(taskList);
         return "Ok, I've marked this task as not done yet:\n%s".formatted(currentTask.getTaskDescription());
     }
 
@@ -180,10 +143,10 @@ public class InputHandler {
         return addToTaskList(newEvent);
     }
 
-    public String deleteTask(String index) {
+    public String deleteTask(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
-        Task removedTask = taskList.remove(taskIndex-1);
-        saveTasks();
+        Task removedTask = taskList.delete(taskIndex);
+        storage.save(taskList);
         return "Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription()) + "\nNow you have %d tasks in the list.".formatted(taskList.size());
     }
 
