@@ -1,4 +1,4 @@
-# Tux User Guide
+# tux.Tux User Guide
 
 // Update the title above to match the actual product name
 

@@ -1,4 +1,4 @@
-package tasks;
+package tux.tasks;
 
 public class ToDo extends Task {
     public ToDo(String description) {

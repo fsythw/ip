@@ -1,11 +1,13 @@
-import exceptions.TaskException;
+package tux;
+
+import tux.exceptions.TaskException;
 //
 //import java.util.List;
 //import java.util.Scanner;
 //
-//public class Tux {
+//public class tux.Tux {
 //
-//    public static final String NAME = "Tux";
+//    public static final String NAME = "tux.Tux";
 //    public static final String DIVIDER = "____________________________________________________________";
 //    public static final String EXIT = "bye";
 //    public static final String FILE_NAME = "./data/tux.dat";
@@ -13,7 +15,7 @@ import exceptions.TaskException;
 //
 //    private static final Scanner scanner = new Scanner(System.in);
 //
-//    private static final ui.InputHandler ih = new ui.InputHandler();
+//    private static final tux.ui.InputHandler ih = new tux.ui.InputHandler();
 //
 //    private static String greetUser() {
 //        return "Hello! I'm %s\nWhat can I do for you?".formatted(NAME);
@@ -44,7 +46,7 @@ import exceptions.TaskException;
 //
 //    public static void main(String[] args) throws TaskException {
 //
-//        List<tasks.Task> loadedTasks = ui.InputHandler.loadTasks(FILE_NAME);
+//        List<tux.tasks.Task> loadedTasks = tux.ui.InputHandler.loadTasks(FILE_NAME);
 //        ih.setTaskList(loadedTasks);
 //
 //        formatMessage(greetUser());
@@ -53,10 +55,10 @@ import exceptions.TaskException;
 //
 //    }
 //}
-import storage.Storage;
-import tasks.TaskList;
-import ui.InputHandler;
-import ui.Ui;
+import tux.storage.Storage;
+import tux.tasks.TaskList;
+import tux.ui.InputHandler;
+import tux.ui.Ui;
 
 public class Tux {
 

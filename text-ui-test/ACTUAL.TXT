@@ -4,67 +4,74 @@ What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[T][ ] buy bread
+[T][ ] do homework
 Now you have 1 tux.tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[T][ ] buy bananas
+[T][ ] buy bread
 Now you have 2 tux.tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[D][ ] submit homework (by: Sunday night)
+[T][ ] buy bananas
 Now you have 3 tux.tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[E][ ] cca meeting from: 8pm to: 9pm
+[D][ ] submit homework (by: Sunday night)
 Now you have 4 tux.tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
 Got it. I've added this task:
-[E][ ] go out with friends from: Wednesday morning to: Wednesday night
+[E][ ] cca meeting from: 8pm to: 9pm
 Now you have 5 tux.tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-1.[T][ ] buy bread
-2.[T][ ] buy bananas
-3.[D][ ] submit homework (by: Sunday night)
-4.[E][ ] cca meeting from: 8pm to: 9pm
-5.[E][ ] go out with friends from: Wednesday morning to: Wednesday night
+Got it. I've added this task:
+[E][ ] go out with friends from: Wednesday morning to: Wednesday night
+Now you have 6 tux.tasks in the list.
+____________________________________________________________
+____________________________________________________________
+1.[T][ ] do homework
+2.[T][ ] buy bread
+3.[T][ ] buy bananas
+4.[D][ ] submit homework (by: Sunday night)
+5.[E][ ] cca meeting from: 8pm to: 9pm
+6.[E][ ] go out with friends from: Wednesday morning to: Wednesday night
 
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
-[T][X] buy bread
-____________________________________________________________
-____________________________________________________________
-Nice! I've marked this task as done:
-[D][X] submit homework (by: Sunday night)
-____________________________________________________________
-____________________________________________________________
-Nice! I've marked this task as done:
-[E][X] cca meeting from: 8pm to: 9pm
-____________________________________________________________
-____________________________________________________________
-Ok, I've marked this task as not done yet:
-[T][ ] buy bread
-____________________________________________________________
-____________________________________________________________
-Ok, I've marked this task as not done yet:
-[D][ ] submit homework (by: Sunday night)
+[T][X] do homework
 ____________________________________________________________
 ____________________________________________________________
 Nice! I've marked this task as done:
 [T][X] buy bananas
 ____________________________________________________________
 ____________________________________________________________
-1.[T][ ] buy bread
-2.[T][X] buy bananas
-3.[D][ ] submit homework (by: Sunday night)
-4.[E][X] cca meeting from: 8pm to: 9pm
-5.[E][ ] go out with friends from: Wednesday morning to: Wednesday night
+Nice! I've marked this task as done:
+[D][X] submit homework (by: Sunday night)
+____________________________________________________________
+____________________________________________________________
+Ok, I've marked this task as not done yet:
+[T][ ] do homework
+____________________________________________________________
+____________________________________________________________
+Ok, I've marked this task as not done yet:
+[T][ ] buy bananas
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+[T][X] buy bread
+____________________________________________________________
+____________________________________________________________
+1.[T][ ] do homework
+2.[T][X] buy bread
+3.[T][ ] buy bananas
+4.[D][X] submit homework (by: Sunday night)
+5.[E][ ] cca meeting from: 8pm to: 9pm
+6.[E][ ] go out with friends from: Wednesday morning to: Wednesday night
 
 ____________________________________________________________
 ____________________________________________________________

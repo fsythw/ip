@@ -1,4 +1,4 @@
-package storage;
+package tux.storage;
 
 import java.io.*;
 import java.nio.file.*;
@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import exceptions.TaskException;
-import tasks.*;
+import tux.exceptions.TaskException;
+import tux.tasks.*;
 
 public class Storage {
     private final Path filePath;
@@ -34,7 +34,7 @@ public class Storage {
                 }
             }
         } catch (IOException e) {
-            throw new TaskException("Could not load tasks: " + e.getMessage());
+            throw new TaskException("Could not load tux.tasks: " + e.getMessage());
         }
         return tasks;
     }
@@ -49,7 +49,7 @@ public class Storage {
                 }
             }
         } catch (IOException e) {
-            throw new TaskException("Could not save tasks: " + e.getMessage());
+            throw new TaskException("Could not save tux.tasks: " + e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class Storage {
             return String.join(" | ", "E", done, e.getDescription(),
                     e.getFrom().toString(), e.getTo().toString());
         }
-        // fallback — treat as tasks.ToDo
+        // fallback — treat as tux.tasks.ToDo
         return String.join(" | ", "T", done, t.getDescription());
     }
 
