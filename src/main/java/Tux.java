@@ -13,7 +13,7 @@ import exceptions.TaskException;
 //
 //    private static final Scanner scanner = new Scanner(System.in);
 //
-//    private static final InputHandler ih = new InputHandler();
+//    private static final ui.InputHandler ih = new ui.InputHandler();
 //
 //    private static String greetUser() {
 //        return "Hello! I'm %s\nWhat can I do for you?".formatted(NAME);
@@ -44,7 +44,7 @@ import exceptions.TaskException;
 //
 //    public static void main(String[] args) throws TaskException {
 //
-//        List<Task> loadedTasks = InputHandler.loadTasks(FILE_NAME);
+//        List<tasks.Task> loadedTasks = ui.InputHandler.loadTasks(FILE_NAME);
 //        ih.setTaskList(loadedTasks);
 //
 //        formatMessage(greetUser());
@@ -53,7 +53,10 @@ import exceptions.TaskException;
 //
 //    }
 //}
-import exceptions.TaskException;
+import storage.Storage;
+import tasks.TaskList;
+import ui.InputHandler;
+import ui.Ui;
 
 public class Tux {
 

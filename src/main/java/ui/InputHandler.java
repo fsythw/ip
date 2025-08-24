@@ -1,16 +1,14 @@
+package ui;
+
 import exceptions.TaskException;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-import types.Command;
+import storage.Storage;
+import tasks.*;
+import types.*;
 
 public class InputHandler {
 
@@ -20,7 +18,7 @@ public class InputHandler {
 
     private final TaskList taskList;
     private final Storage storage;
-    //private static final List<Task> taskList = new ArrayList<Task>();
+    //private static final List<tasks.Task> taskList = new ArrayList<tasks.Task>();
     private static final StringBuilder sb = new StringBuilder();
 
     public InputHandler(TaskList taskList, Storage storage) {
@@ -100,7 +98,7 @@ public class InputHandler {
 
     public String createDeadline(String userInput) throws TaskException {
         if (!userInput.contains(BY)) {
-            throw new TaskException("Deadline task must contain /by!");
+            throw new TaskException("tasks.Deadline task must contain /by!");
         }
 
         String[] handledUserInput = userInput.split(BY);
@@ -125,7 +123,7 @@ public class InputHandler {
         int toIndex = userInput.indexOf(TO);
 
         if (fromIndex == -1 || toIndex == -1) {
-            throw new TaskException("Event task must contain /from and /to!");
+            throw new TaskException("tasks.Event task must contain /from and /to!");
         }
 
         String description = userInput.substring(0, fromIndex).trim();

@@ -1,3 +1,5 @@
+package storage;
+
 import java.io.*;
 import java.nio.file.*;
 import java.time.LocalDate;
@@ -5,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.TaskException;
+import tasks.*;
 
 public class Storage {
     private final Path filePath;
@@ -66,7 +69,7 @@ public class Storage {
             return String.join(" | ", "E", done, e.getDescription(),
                     e.getFrom().toString(), e.getTo().toString());
         }
-        // fallback — treat as ToDo
+        // fallback — treat as tasks.ToDo
         return String.join(" | ", "T", done, t.getDescription());
     }
 
