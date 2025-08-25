@@ -60,6 +60,9 @@ import tux.tasks.TaskList;
 import tux.ui.InputHandler;
 import tux.ui.Ui;
 
+/**
+ * Entry point for Tux.
+ */
 public class Tux {
 
     private static final String FILE_NAME = "./data/tux.dat";
@@ -74,7 +77,9 @@ public class Tux {
 
         while (true) {
             String userInput = ui.readCommand();
-            if (userInput.equalsIgnoreCase("bye")) break;
+            if (userInput.equalsIgnoreCase("bye")) {
+                break;
+            }
 
             String response = ih.handleInput(userInput);
             ui.showMessage(response);

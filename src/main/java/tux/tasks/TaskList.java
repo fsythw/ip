@@ -3,6 +3,9 @@ package tux.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a list of tasks in Tux.
+ */
 public class TaskList {
     private final List<Task> tasks;
 

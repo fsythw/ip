@@ -2,10 +2,17 @@ package tux.tasks;
 
 import java.io.Serializable;
 
+/**
+ * Represents a generic base class for Task in Tux.
+ */
 public class Task implements Serializable {
     protected String description;
     protected boolean isDone;
 
+    /**
+     * Takes the given description and constructs a Task, with default isDone set to false.
+     * @param description
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;

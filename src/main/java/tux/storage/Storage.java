@@ -1,21 +1,38 @@
 package tux.storage;
 
-import java.io.*;
-import java.nio.file.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import tux.exceptions.TaskException;
-import tux.tasks.*;
+import tux.tasks.Deadline;
+import tux.tasks.Event;
+import tux.tasks.Task;
+import tux.tasks.TaskList;
+import tux.tasks.ToDo;
 
+/**
+ * A file-based storage system for tasks.
+ */
 public class Storage {
+
     private final Path filePath;
 
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
 
+    /**
+     * Reads the file, decodes it into individual Tasks, and returns a TaskList.
+     * @return TaskList containing all tasks
+     * @throws TaskException
+     */
     public List<Task> load() throws TaskException {
         List<Task> tasks = new ArrayList<>();
         try {
@@ -28,9 +45,13 @@ public class Storage {
                 String line;
                 while ((line = br.readLine()) != null) {
                     line = line.trim();
-                    if (line.isEmpty()) continue;
+                    if (line.isEmpty()) {
+                        continue;
+                    }
                     Task t = decode(line);
-                    if (t != null) tasks.add(t);
+                    if (t != null) {
+                        tasks.add(t);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -39,6 +60,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Takes in a TaskList, encodes, and writes each Task to a file.
+     * @param taskList
+     * @throws TaskException
+     */
     public void save(TaskList taskList) throws TaskException {
         try {
             Files.createDirectories(filePath.getParent());
@@ -75,35 +101,47 @@ public class Storage {
 
     private Task decode(String line) throws TaskException {
         String[] parts = line.split("\\s*\\|\\s*");
-        if (parts.length < 3) throw new TaskException("Corrupt line: " + line);
+        if (parts.length < 3) {
+            throw new TaskException("Corrupt line: " + line);
+        }
         String type = parts[0];
         boolean done = "1".equals(parts[1]);
         switch (type) {
-            case "T": {
-                String desc = parts[2];
-                Task t = new ToDo(desc);
-                if (done) t.markDone();
-                return t;
+        case "T": {
+            String desc = parts[2];
+            Task t = new ToDo(desc);
+            if (done) {
+                t.markDone();
             }
-            case "D": {
-                if (parts.length < 4) throw new TaskException("Corrupt deadline: " + line);
-                String desc = parts[2];
-                LocalDate by = LocalDate.parse(parts[3]);
-                Task t = new Deadline(desc, by);
-                if (done) t.markDone();
-                return t;
+            return t;
+        }
+        case "D": {
+            if (parts.length < 4) {
+                throw new TaskException("Corrupt deadline: " + line);
             }
-            case "E": {
-                if (parts.length < 5) throw new TaskException("Corrupt event: " + line);
-                String desc = parts[2];
-                LocalDate from = LocalDate.parse(parts[3]);
-                LocalDate to = LocalDate.parse(parts[4]);
-                Task t = new Event(desc, from, to);
-                if (done) t.markDone();
-                return t;
+            String desc = parts[2];
+            LocalDate by = LocalDate.parse(parts[3]);
+            Task t = new Deadline(desc, by);
+            if (done) {
+                t.markDone();
             }
-            default:
-                throw new TaskException("Unknown type in save file: " + type);
+            return t;
+        }
+        case "E": {
+            if (parts.length < 5) {
+                throw new TaskException("Corrupt event: " + line);
+            }
+            String desc = parts[2];
+            LocalDate from = LocalDate.parse(parts[3]);
+            LocalDate to = LocalDate.parse(parts[4]);
+            Task t = new Event(desc, from, to);
+            if (done) {
+                t.markDone();
+            }
+            return t;
+        }
+        default:
+            throw new TaskException("Unknown type in save file: " + type);
         }
     }
 }

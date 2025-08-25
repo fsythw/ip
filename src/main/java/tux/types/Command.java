@@ -1,5 +1,8 @@
 package tux.types;
 
+/**
+ * Represents an enumeration of Commands in Tux.
+ */
 public enum Command {
     MARK,
     UNMARK,

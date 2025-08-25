@@ -1,5 +1,8 @@
 package tux.tasks;
 
+/**
+ * Represents a ToDo task in Tux.
+ */
 public class ToDo extends Task {
     public ToDo(String description) {
         super(description);
