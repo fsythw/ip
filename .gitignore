@@ -5,7 +5,7 @@
 
 # Data files
 /data
-/testData
+/testData/
 
 # Gradle build files
 /.gradle/
