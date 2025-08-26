@@ -75,7 +75,7 @@ public class Storage {
                 }
             }
         } catch (IOException e) {
-            throw new TaskException("Could not save tux.tasks: " + e.getMessage());
+            throw new TaskException("Could not save tasks: " + e.getMessage());
         }
     }
 
