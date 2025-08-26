@@ -33,8 +33,7 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "Tux"
-    archiveClassifier = null
+    archiveFileName = 'tux.jar'
 }
 
 run{
