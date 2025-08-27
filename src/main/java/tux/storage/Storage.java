@@ -18,20 +18,29 @@ import tux.tasks.TaskList;
 import tux.tasks.ToDo;
 
 /**
- * A file-based storage system for tasks.
+ * Handles persistent storage of tasks in a file.
+ * This Storage class handles reading and writing tasks from/to a text file.
+ * It encodes Task objects into a line-based format for writing
+ * and decodes them back into Task objects when reading.
  */
 public class Storage {
 
     private final Path filePath;
 
+    /**
+     * Creates a Storage instance with the given file path.
+     * @param filePath The hardcoded path to the file where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
 
     /**
-     * Reads the file, decodes it into individual Tasks, and returns a TaskList.
-     * @return TaskList containing all tasks
-     * @throws TaskException
+     * Loads all tasks from file into memory.
+     * Each line is decoded into a type of Task.
+     * If the file does not exist, it is created along with the necessary parent directories.
+     * @return TaskList containing all tasks read. If the file is empty, returns empty list.
+     * @throws TaskException If the file cannot be read or contains corrupt data.
      */
     public List<Task> load() throws TaskException {
         List<Task> tasks = new ArrayList<>();
@@ -61,9 +70,10 @@ public class Storage {
     }
 
     /**
-     * Takes in a TaskList, encodes, and writes each Task to a file.
-     * @param taskList
-     * @throws TaskException
+     * Saves the given TaskList of tasks to the file.
+     * Each task is encoded into a single line. Overwrites the file contents.
+     * @param taskList The list of tasks to be written.
+     * @throws TaskException If the file cannot be created or written to.
      */
     public void save(TaskList taskList) throws TaskException {
         try {
@@ -79,10 +89,11 @@ public class Storage {
         }
     }
 
-    // Format:
-    // T | 1 | read book
-    // D | 0 | return book | 2025-06-06
-    // E | 1 | project meeting | 2025-08-06 | 2025-08-06
+    /**
+     * Encodes a single Task object into a String.
+     * @param t The Task object to be encoded.
+     * @return String object with the format type | id | description
+     */
     private String encode(Task t) {
         String done = t.getDone() ? "1" : "0";
         if (t instanceof ToDo) {
@@ -99,6 +110,12 @@ public class Storage {
         return String.join(" | ", "T", done, t.getDescription());
     }
 
+    /**
+     * Decodes a single line from the file into a Task object.
+     * @param line A String object read from the file.
+     * @return A subtype of a Task object.
+     * @throws TaskException If the line is in incorrect format.
+     */
     private Task decode(String line) throws TaskException {
         String[] parts = line.split("\\s*\\|\\s*");
         if (parts.length < 3) {

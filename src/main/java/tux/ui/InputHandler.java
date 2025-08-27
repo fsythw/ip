@@ -14,7 +14,8 @@ import tux.tasks.ToDo;
 import tux.types.Command;
 
 /**
- * Class to handle and parse user input.
+ * Parses and executes user commands to manipulate tasks.
+ * Translates user input into actions on the TaskList, and updates the Storage object suitably.
  */
 public class InputHandler {
 
@@ -29,8 +30,8 @@ public class InputHandler {
 
     /**
      * Constructs an InputHandler.
-     * @param taskList The TaskList storing Tasks.
-     * @param storage The Storage object responsible for loading and savin data.
+     * @param taskList The list of tasks currently in memory.
+     * @param storage The Storage object responsible for loading and saving data.
      */
     public InputHandler(TaskList taskList, Storage storage) {
         this.taskList = taskList;
@@ -38,9 +39,9 @@ public class InputHandler {
     }
 
     /**
-     * Takes in user input, parses it, and returns the suitable command.
-     * @param userInput
-     * @return String after parsing the user input.
+     * Parses user command string and performs the corresponding action.
+     * @param userInput The raw command input (e.g. todo buy bread)
+     * @return A response message after performing the action.
      */
     public String handleInput(String userInput) {
         Command command = getInstruction(userInput.trim().split(" ")[0]);
@@ -66,12 +67,6 @@ public class InputHandler {
         return Command.valueOf(instruction.toUpperCase());
     }
 
-    public void setTaskList(List<Task> tasks) {
-        this.taskList.clear();
-        this.taskList.addAll(tasks);
-    }
-
-
     private String addToTaskList(Task task) throws TaskException {
         taskList.add(task);
         storage.save(taskList);
@@ -88,6 +83,13 @@ public class InputHandler {
         return sb.toString();
     }
 
+    /**
+     * Marks a task as completed.
+     *
+     * @param index The index of the task in TaskList.
+     * @return String confirmation message.
+     * @throws TaskException If the index is invalid or storage cannot be updated.
+     */
     private String markDone(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
         Task currentTask = taskList.get(taskIndex - 1);
@@ -97,10 +99,11 @@ public class InputHandler {
     }
 
     /**
-     * Marks a Task as undone by setting isDone to fale.
-     * @param index of Task in TaskList
-     * @return String showing completion.
-     * @throws TaskException
+     * Marks a task as not completed.
+     *
+     * @param index The index of the task in the TaskList.
+     * @return String confirmation message.
+     * @throws TaskException If the index is invalid or storage cannot be updated.
      */
     private String markUndone(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
@@ -111,10 +114,11 @@ public class InputHandler {
     }
 
     /**
-     * Takes user input and creates a ToDo task, returning a completion String.
-     * @param userInput
-     * @return String
-     * @throws TaskException
+     * Creates a ToDo task from user input and adds it to TaskList.
+     *
+     * @param userInput String description of the task.
+     * @return String confirmation message after adding.
+     * @throws TaskException If the description is blank.
      */
     public String createToDo(String userInput) throws TaskException {
         if (userInput.isBlank()) {
@@ -126,10 +130,11 @@ public class InputHandler {
     }
 
     /**
-     * Takes in user input, creates a Deadline task and returns a completion String.
-     * @param userInput
-     * @return String
-     * @throws TaskException
+     * Creates a Deadline task from user input and adds it to TaskList.
+     *
+     * @param userInput String input containing description and "/by" date.
+     * @return String confirmation message after adding.
+     * @throws TaskException If format is invalid or date cannot be parsed into LocalDate object.
      */
     public String createDeadline(String userInput) throws TaskException {
         if (!userInput.contains(BY)) {
@@ -154,10 +159,11 @@ public class InputHandler {
     }
 
     /**
-     * Takes in user input, creates an Event task, and returns a completion String.
-     * @param userInput
-     * @return String
-     * @throws TaskException
+     * Creates an Event task from user input and adds it to TaskList.
+     *
+     * @param userInput String input containing description, "/from" and "/to" dates.
+     * @return String confirmation message after adding.
+     * @throws TaskException If format is invalid or date cannot be parsed into LocalDate object.
      */
     public String createEvent(String userInput) throws TaskException {
         int fromIndex = userInput.indexOf(FROM);
@@ -184,15 +190,15 @@ public class InputHandler {
     }
 
     /**
-     * Takes in an integer index of the Task in TaskList to be deleted,
-     * and returns a completion String
-     * @param index
-     * @return String
-     * @throws TaskException
+     * Deletes a task by index.
+     *
+     * @param index The index of the task in the TaskList.
+     * @return String confirmation message after deletion.
+     * @throws TaskException If the index is invalid or storage cannot be updated.
      */
     public String deleteTask(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
-        Task removedTask = taskList.delete(taskIndex);
+        Task removedTask = taskList.delete(taskIndex-1);
         storage.save(taskList);
         return "Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription())
                 + "\nNow you have %d tux.tasks in the list.".formatted(taskList.size());

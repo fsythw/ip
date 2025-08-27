@@ -67,6 +67,12 @@ public class Tux {
 
     private static final String FILE_NAME = "./data/tux.dat";
 
+    /**
+     * Main method to run Tux.
+     * This creates an instance of Tux with the Ui object and reads user inpu
+     * @param args Command line arguments.
+     * @throws TaskException
+     */
     public static void main(String[] args) throws TaskException {
         Ui ui = new Ui();
         Storage storage = new Storage(FILE_NAME);

@@ -3,13 +3,16 @@ package tux.ui;
 import java.util.Scanner;
 
 /**
- * Handles interaction with user.
+ * Handles interactions with user.
  */
 public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
     private static final String NAME = "tux.Tux";
     private final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Displays divider.
+     */
     public void showLine() {
         System.out.println(DIVIDER);
     }
@@ -33,8 +36,8 @@ public class Ui {
     }
 
     /**
-     * Takes a String message and adds dividers before and after it.
-     * @param msg
+     * Formats and displays a message for the user.
+     * @param msg String message to be displayed.
      */
     public void showMessage(String msg) {
         showLine();
@@ -42,14 +45,11 @@ public class Ui {
         showLine();
     }
 
-    public void showError(String msg) {
-        System.out.println(msg);
-    }
-
-    public void showLoadingError() {
-        System.out.println("Loading error. Starting with an empty task list.");
-    }
-
+    /**
+     * Reads user input for processing.
+     * @return Formatted String for TaskList manipulation.
+     */
     public String readCommand() {
-        return scanner.nextLine().trim(); }
+        return scanner.nextLine().trim();
+    }
 }
