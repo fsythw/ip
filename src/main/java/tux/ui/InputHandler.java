@@ -2,6 +2,7 @@ package tux.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
 import java.util.List;
 
 import tux.exceptions.TaskException;
@@ -48,14 +49,14 @@ public class InputHandler {
 
         try {
             return switch (command) {
-            case MARK -> markDone(msg);
-            case UNMARK -> markUndone(msg);
-            case TODO -> createToDo(msg);
-            case DEADLINE -> createDeadline(msg);
-            case EVENT -> createEvent(msg);
-            case LIST -> enumerateTaskList();
-            case DELETE -> deleteTask(msg);
-            default -> "going to handle this";
+                case MARK -> markDone(msg);
+                case UNMARK -> markUndone(msg);
+                case TODO -> createToDo(msg);
+                case DEADLINE -> createDeadline(msg);
+                case EVENT -> createEvent(msg);
+                case LIST -> enumerateTaskList();
+                case DELETE -> deleteTask(msg);
+                default -> "going to handle this";
             };
         } catch (TaskException e) {
             return e.getMessage();
