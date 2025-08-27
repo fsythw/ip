@@ -55,6 +55,7 @@ public class InputHandler {
             case EVENT -> createEvent(msg);
             case LIST -> enumerateTaskList();
             case DELETE -> deleteTask(msg);
+            case FIND -> findTask(msg);
             default -> "going to handle this";
             };
         } catch (TaskException e) {
@@ -196,6 +197,33 @@ public class InputHandler {
         storage.save(taskList);
         return "Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription())
                 + "\nNow you have %d tux.tasks in the list.".formatted(taskList.size());
+    }
+
+    public String findTask(String keyword) throws TaskException {
+        if (keyword == null || keyword.isBlank()) {
+            throw new TaskException("Please provide a keyword to search");
+        }
+
+        String lowerKeyword = keyword.toLowerCase();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here are the matching tasks in your list:\n");
+
+        int matchCount = 0;
+        for (int i = 0; i < taskList.size(); i++) {
+            Task currentTask = taskList.get(i);
+            String currentTaskDescription = currentTask.getTaskDescription();
+            if (currentTaskDescription.toLowerCase().contains(lowerKeyword)) {
+                matchCount++;
+                sb.append("%d.%s\n".formatted(matchCount, currentTaskDescription));
+            }
+        }
+
+        if (matchCount == 0) {
+            return "No matching tasks found for \"" + keyword + "\".";
+        }
+
+        return sb.toString().trim();
+
     }
 
 
