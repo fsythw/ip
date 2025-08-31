@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
-    private static final String NAME = "tux.Tux";
+    private static final String NAME = "Tux";
     private final Scanner scanner = new Scanner(System.in);
 
     /**
