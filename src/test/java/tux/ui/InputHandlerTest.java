@@ -1,13 +1,15 @@
 package tux.ui;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import tux.exceptions.TaskException;
 import tux.storage.Storage;
 import tux.tasks.TaskList;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 public class InputHandlerTest {
 
@@ -29,15 +31,15 @@ public class InputHandlerTest {
 
     @Test
     void createDeadline_missingBy_throwsException() {
-        TaskException ex = assertThrows(TaskException.class,
-                () -> ih.createDeadline("deadline finish report"));
+        TaskException ex = assertThrows(TaskException.class, () ->
+                ih.createDeadline("deadline finish report"));
         assertEquals("error: Deadline task must contain /by!", ex.getMessage());
     }
 
     @Test
     void createDeadline_incorrectFormat_throwsException() {
-        TaskException ex = assertThrows(TaskException.class,
-                () -> ih.createDeadline("Finish report /by not-a-date"));
+        TaskException ex = assertThrows(TaskException.class, () ->
+                ih.createDeadline("Finish report /by not-a-date"));
         assertTrue(ex.getMessage().toLowerCase().contains("incorrect"),
                 "error: incorrect format for deadline task");
     }

@@ -1,19 +1,24 @@
 package tux.storage;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
-import java.nio.file.*;
 import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import tux.exceptions.TaskException;
 import tux.tasks.Deadline;
 import tux.tasks.Task;
 import tux.tasks.TaskList;
 import tux.tasks.ToDo;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class StorageTest {

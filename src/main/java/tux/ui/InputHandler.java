@@ -2,7 +2,6 @@ package tux.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 
 import tux.exceptions.TaskException;
 import tux.storage.Storage;
@@ -199,12 +198,18 @@ public class InputHandler {
      */
     public String deleteTask(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
-        Task removedTask = taskList.delete(taskIndex-1);
+        Task removedTask = taskList.delete(taskIndex - 1);
         storage.save(taskList);
         return "Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription())
                 + "\nNow you have %d tux.tasks in the list.".formatted(taskList.size());
     }
 
+    /**
+     * Searches for tasks (includes partial searching) using the given keyword.
+     * @param keyword String to search for
+     * @return String containing parsed tasks
+     * @throws TaskException
+     */
     public String findTask(String keyword) throws TaskException {
         if (keyword == null || keyword.isBlank()) {
             throw new TaskException("Please provide a keyword to search");
