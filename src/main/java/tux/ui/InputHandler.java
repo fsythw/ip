@@ -2,6 +2,7 @@ package tux.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
 import tux.exceptions.TaskException;
 import tux.storage.Storage;
@@ -206,16 +207,17 @@ public class InputHandler {
 
     /**
      * Searches for tasks (includes partial searching) using the given keyword.
-     * @param keyword String to search for
+     * @param keywords String to search for
      * @return String containing parsed tasks
      * @throws TaskException
      */
-    public String findTask(String keyword) throws TaskException {
-        if (keyword == null || keyword.isBlank()) {
+    //public String findTask(String keyword) throws TaskException {
+    public String findTask(String... keywords) throws TaskException {
+        if (keywords == null || keywords.length == 0) {
             throw new TaskException("Please provide a keyword to search");
         }
 
-        String lowerKeyword = keyword.toLowerCase();
+        //String lowerKeyword = keywords.toLowerCase();
         StringBuilder sb = new StringBuilder();
         sb.append("Here are the matching tasks in your list:\n");
 
@@ -223,14 +225,23 @@ public class InputHandler {
         for (int i = 0; i < taskList.size(); i++) {
             Task currentTask = taskList.get(i);
             String currentTaskDescription = currentTask.getTaskDescription();
-            if (currentTaskDescription.toLowerCase().contains(lowerKeyword)) {
+
+            boolean matches = false;
+            for (String keyword : keywords) {
+                if (currentTaskDescription.toLowerCase().contains(keyword.toLowerCase())) {
+                    matches = true;
+                    break;
+                }
+            }
+
+            if (matches) {
                 matchCount++;
                 sb.append("%d.%s\n".formatted(matchCount, currentTaskDescription));
             }
         }
 
         if (matchCount == 0) {
-            return "No matching tasks found for \"" + keyword + "\".";
+            return "No matching tasks found for \"" + String.join(", )", keywords) + "\".";
         }
 
         return sb.toString().trim();
