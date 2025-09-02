@@ -2,7 +2,6 @@ package tux.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 
 import tux.exceptions.TaskException;
 import tux.storage.Storage;
@@ -44,9 +43,16 @@ public class InputHandler {
      * @return A response message after performing the action.
      */
     public String handleInput(String userInput) {
-        Command command = getInstruction(userInput.trim().split(" ")[0]);
-        String msg = userInput.substring(userInput.trim().split(" ")[0].length()).trim();
+//        Command command = getInstruction(userInput.trim().split(" ")[0]);
+//        String msg = userInput.substring(userInput.trim().split(" ")[0].length()).trim();
+//
+        String[] parts = userInput.trim().split(" ", 2);
+        String commandWord = parts[0];
+        String msg = parts.length > 1
+                   ? parts[1].trim()
+                   : "";
 
+        Command command = getInstruction(commandWord);
         try {
             return switch (command) {
             case MARK -> markDone(msg);
@@ -57,7 +63,7 @@ public class InputHandler {
             case LIST -> enumerateTaskList();
             case DELETE -> deleteTask(msg);
             case FIND -> findTask(msg);
-            default -> "going to handle this";
+            case UNKNOWN -> "I'm sorry, I don't recognise that command!";
             };
         } catch (TaskException e) {
             return e.getMessage();
@@ -65,7 +71,12 @@ public class InputHandler {
     }
 
     private Command getInstruction(String instruction) {
-        return Command.valueOf(instruction.toUpperCase());
+        try {
+            return Command.valueOf(instruction.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return Command.UNKNOWN;
+        }
+
     }
 
     private String addToTaskList(Task task) throws TaskException {
