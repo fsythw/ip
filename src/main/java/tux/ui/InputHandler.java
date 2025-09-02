@@ -90,7 +90,7 @@ public class InputHandler {
     private String enumerateTaskList() {
         sb.setLength(0);
         for (int i = 0; i < taskList.size(); i++) {
-            sb.append("%s.%s\n".formatted(i + 1, taskList.get(i).getTaskDescription()));
+            sb.append("%s. %s\n".formatted(i + 1, taskList.get(i).getTaskDescription()));
         }
         return sb.toString();
     }
@@ -195,7 +195,7 @@ public class InputHandler {
             from = LocalDate.parse(fromStr);
             to = LocalDate.parse(toStr);
         } catch (DateTimeParseException e) {
-            throw new TaskException("incorrect format for deadline task");
+            throw new TaskException("incorrect format for event task");
         }
         Task newEvent = new Event(description, from, to);
         return addToTaskList(newEvent);
