@@ -24,24 +24,21 @@ public class MainWindow extends AnchorPane {
 
     private Tux tux;
 
-    // private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    // private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
-
     @FXML
-    public void initialize() {
+    private void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog("Hello! I'm Tux. What can I do for you?") // add duke's greeting
+                DialogBox.getTuxDialog("Hello! I'm Tux. What can I do for you?") // add duke's greeting
         );
     }
 
-    /** Injects the Duke instance */
+    /** Injects the Tux instance */
     public void setTux(Tux t) {
         tux = t;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
+     * Creates two dialog boxes, one echoing user input and the other containing Tux's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
     @FXML
@@ -51,7 +48,7 @@ public class MainWindow extends AnchorPane {
 
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input),
-                DialogBox.getDukeDialog(response)
+                DialogBox.getTuxDialog(response)
         );
         userInput.clear();
 

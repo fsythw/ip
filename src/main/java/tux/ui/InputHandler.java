@@ -43,9 +43,6 @@ public class InputHandler {
      * @return A response message after performing the action.
      */
     public String handleInput(String userInput) {
-//        Command command = getInstruction(userInput.trim().split(" ")[0]);
-//        String msg = userInput.substring(userInput.trim().split(" ")[0].length()).trim();
-//
         String[] parts = userInput.trim().split(" ", 2);
         String commandWord = parts[0];
         String msg = parts.length > 1

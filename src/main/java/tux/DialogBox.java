@@ -12,15 +12,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-
+/**
+ * Represents a dialog box to represent the user's text and the bot's response.
+ */
 public class DialogBox extends HBox {
 
     @FXML
     private Label dialog;
-//    @FXML
-//    private ImageView displayPicture;
 
-    public DialogBox(String text) {
+    private DialogBox(String text) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -49,27 +49,10 @@ public class DialogBox extends HBox {
         return new DialogBox(s);
     }
 
-    public static DialogBox getDukeDialog(String s) {
+    public static DialogBox getTuxDialog(String s) {
         var db = new DialogBox(s);
         db.flip();
         return db;
     }
-
-//    private void changeDialogStyle(String commandType) {
-//        switch(commandType) {
-//        case "AddCommand":
-//            dialog.getStyleClass().add("add-label");
-//            break;
-//        case "ChangeMarkCommand":
-//            dialog.getStyleClass().add("marked-label");
-//            break;
-//        case "DeleteCommand":
-//            dialog.getStyleClass().add("delete-label");
-//            break;
-//        default:
-//            // Do nothing
-//        }
-//    }
-
 
 }

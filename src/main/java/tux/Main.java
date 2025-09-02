@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
+/**
+ * GUI entry point for Tux.
+ */
 public class Main extends Application {
 
     private Tux tux = new Tux();
