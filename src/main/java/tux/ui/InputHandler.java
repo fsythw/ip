@@ -2,6 +2,10 @@ package tux.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import tux.exceptions.TaskException;
 import tux.storage.Storage;
@@ -85,11 +89,15 @@ public class InputHandler {
     }
 
     private String enumerateTaskList() {
-        sb.setLength(0);
-        for (int i = 0; i < taskList.size(); i++) {
-            sb.append("%s. %s\n".formatted(i + 1, taskList.get(i).getTaskDescription()));
-        }
-        return sb.toString();
+//        sb.setLength(0);
+//        for (int i = 0; i < taskList.size(); i++) {
+//            sb.append("%s. %s\n".formatted(i + 1, taskList.get(i).getTaskDescription()));
+//        }
+//        return sb.toString();
+        return IntStream.range(0, taskList.size())
+                .mapToObj(i -> "%s. %s\n".formatted(i + 1, taskList.get(i).getTaskDescription()))
+                .collect(Collectors.joining("\n"));
+
     }
 
     /**
@@ -219,40 +227,46 @@ public class InputHandler {
      * @return String containing parsed tasks
      * @throws TaskException
      */
-    //public String findTask(String keyword) throws TaskException {
     public String findTask(String... keywords) throws TaskException {
         if (keywords == null || keywords.length == 0) {
             throw new TaskException("Please provide a keyword to search");
         }
 
-        //String lowerKeyword = keywords.toLowerCase();
-        StringBuilder sb = new StringBuilder();
-        sb.append("Here are the matching tasks in your list:\n");
+        List<String> lowerKeywords = Arrays.stream(keywords).map(String::toLowerCase).toList();
 
-        int matchCount = 0;
-        for (int i = 0; i < taskList.size(); i++) {
-            Task currentTask = taskList.get(i);
-            String currentTaskDescription = currentTask.getTaskDescription();
-
-            boolean matches = false;
-            for (String keyword : keywords) {
-                if (currentTaskDescription.toLowerCase().contains(keyword.toLowerCase())) {
-                    matches = true;
-                    break;
-                }
-            }
-
-            if (matches) {
-                matchCount++;
-                sb.append("%d.%s\n".formatted(matchCount, currentTaskDescription));
-            }
-        }
-
-        if (matchCount == 0) {
+        String result = IntStream.range(0, taskList.size())
+                .mapToObj(i -> taskList.get(i))
+                .filter(t -> lowerKeywords.stream()
+                        .anyMatch(kw -> t.getTaskDescription().toLowerCase().contains(kw)))
+                .map(Task::getTaskDescription)
+                .collect(Collectors.joining("\n"));
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Here are the matching tasks in your list:\n");
+//
+//        int matchCount = 0;
+//        for (int i = 0; i < taskList.size(); i++) {
+//            Task currentTask = taskList.get(i);
+//            String currentTaskDescription = currentTask.getTaskDescription();
+//
+//            boolean matches = false;
+//            for (String keyword : keywords) {
+//                if (currentTaskDescription.toLowerCase().contains(keyword.toLowerCase())) {
+//                    matches = true;
+//                    break;
+//                }
+//            }
+//
+//            if (matches) {
+//                matchCount++;
+//                sb.append("%d.%s\n".formatted(matchCount, currentTaskDescription));
+//            }
+//        }
+//
+        if (result.isEmpty()) {
             return "No matching tasks found for \"" + String.join(", )", keywords) + "\".";
         }
+        return "Here are the matching tasks in your list:\n" + result;
 
-        return sb.toString().trim();
 
     }
 
