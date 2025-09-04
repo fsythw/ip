@@ -32,7 +32,6 @@ public class Tux {
     }
 
     public String getResponse(String userInput) {
-
         String response = ih.handleInput(userInput);
         return response;
     }

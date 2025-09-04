@@ -44,6 +44,8 @@ public class Storage {
      */
     public List<Task> load() throws TaskException {
         List<Task> tasks = new ArrayList<>();
+
+
         try {
             if (!Files.exists(filePath)) {
                 Files.createDirectories(filePath.getParent());
@@ -53,8 +55,7 @@ public class Storage {
             try (BufferedReader br = Files.newBufferedReader(filePath)) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    line = line.trim();
-                    if (line.isEmpty()) {
+                    if (line.trim().isEmpty()) {
                         continue;
                     }
                     Task t = decode(line);
@@ -64,9 +65,10 @@ public class Storage {
                 }
             }
         } catch (IOException e) {
-            throw new TaskException("Could not load tux.tasks: " + e.getMessage());
+            throw new TaskException("Could not load tasks: " + e.getMessage());
         }
         return tasks;
+
     }
 
     /**

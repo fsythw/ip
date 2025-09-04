@@ -25,7 +25,6 @@ public class InputHandler {
 
     private final TaskList taskList;
     private final Storage storage;
-    //private static final List<tux.tasks.Task> taskList = new ArrayList<tux.tasks.Task>();
 
     /**
      * Constructs an InputHandler.
@@ -45,21 +44,21 @@ public class InputHandler {
     public String handleInput(String userInput) {
         String[] parts = userInput.trim().split(" ", 2);
         String commandWord = parts[0];
-        String msg = parts.length > 1
+        String args = parts.length > 1
                    ? parts[1].trim()
                    : "";
 
         Command command = getInstruction(commandWord);
         try {
             return switch (command) {
-            case MARK -> markDone(msg);
-            case UNMARK -> markUndone(msg);
-            case TODO -> createToDo(msg);
-            case DEADLINE -> createDeadline(msg);
-            case EVENT -> createEvent(msg);
+            case MARK -> markDone(args);
+            case UNMARK -> markUndone(args);
+            case TODO -> createToDo(args);
+            case DEADLINE -> createDeadline(args);
+            case EVENT -> createEvent(args);
             case LIST -> enumerateTaskList();
-            case DELETE -> deleteTask(msg);
-            case FIND -> findTask(msg);
+            case DELETE -> deleteTask(args);
+            case FIND -> findTask(args);
             case UNKNOWN -> "I'm sorry, I don't recognise that command!";
             };
         } catch (TaskException e) {
@@ -152,7 +151,7 @@ public class InputHandler {
 
         String[] handledUserInput = userInput.split(BY);
         if (handledUserInput.length != 2) {
-            throw new TaskException("Incorrect deadline format");
+            throw new TaskException("Incorrect format for deadline task");
         }
         String description = userInput.split(BY)[0].trim();
         String byStr = userInput.split(BY)[1].trim();
@@ -161,7 +160,7 @@ public class InputHandler {
         try {
             by = LocalDate.parse(byStr);
         } catch (DateTimeParseException e) {
-            throw new TaskException("incorrect format for deadline task");
+            throw new TaskException("Incorrect format for deadline");
         }
         Task newDeadline = new Deadline(description, by);
         return addToTaskList(newDeadline);
@@ -188,11 +187,12 @@ public class InputHandler {
 
         LocalDate from;
         LocalDate to;
+
         try {
             from = LocalDate.parse(fromStr);
             to = LocalDate.parse(toStr);
         } catch (DateTimeParseException e) {
-            throw new TaskException("incorrect format for event task");
+            throw new TaskException("Incorrect format for event");
         }
         Task newEvent = new Event(description, from, to);
         return addToTaskList(newEvent);
@@ -217,16 +217,14 @@ public class InputHandler {
      * Searches for tasks (includes partial searching) using the given keyword.
      * @param keywords String to search for
      * @return String containing parsed tasks
-     * @throws TaskException
+     * @throws TaskException if keyword is empty
      */
-    //public String findTask(String keyword) throws TaskException {
     public String findTask(String... keywords) throws TaskException {
         if (keywords == null || keywords.length == 0) {
             throw new TaskException("Please provide a keyword to search");
         }
 
-        //String lowerKeyword = keywords.toLowerCase();
-        StringBuilder sb = new StringBuilder();
+        sb.setLength(0);
         sb.append("Here are the matching tasks in your list:\n");
 
         int matchCount = 0;
@@ -234,15 +232,15 @@ public class InputHandler {
             Task currentTask = taskList.get(i);
             String currentTaskDescription = currentTask.getTaskDescription();
 
-            boolean matches = false;
+            boolean isMatch = false;
             for (String keyword : keywords) {
                 if (currentTaskDescription.toLowerCase().contains(keyword.toLowerCase())) {
-                    matches = true;
+                    isMatch = true;
                     break;
                 }
             }
 
-            if (matches) {
+            if (isMatch) {
                 matchCount++;
                 sb.append("%d.%s\n".formatted(matchCount, currentTaskDescription));
             }
