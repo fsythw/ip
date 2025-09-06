@@ -93,11 +93,6 @@ public class InputHandler {
     }
 
     private String enumerateTaskList() {
-//        sb.setLength(0);
-//        for (int i = 0; i < taskList.size(); i++) {
-//            sb.append("%s. %s\n".formatted(i + 1, taskList.get(i).getTaskDescription()));
-//        }
-//        return sb.toString();
         return IntStream.range(0, taskList.size())
                 .mapToObj(i -> "%s. %s\n".formatted(i + 1, taskList.get(i).getTaskDescription()))
                 .collect(Collectors.joining("\n"));
@@ -247,34 +242,11 @@ public class InputHandler {
                         .anyMatch(kw -> t.getTaskDescription().toLowerCase().contains(kw)))
                 .map(Task::getTaskDescription)
                 .collect(Collectors.joining("\n"));
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("Here are the matching tasks in your list:\n");
-//
-//        int matchCount = 0;
-//        for (int i = 0; i < taskList.size(); i++) {
-//            Task currentTask = taskList.get(i);
-//            String currentTaskDescription = currentTask.getTaskDescription();
-//
-//            boolean matches = false;
-//            for (String keyword : keywords) {
-//                if (currentTaskDescription.toLowerCase().contains(keyword.toLowerCase())) {
-//                    matches = true;
-//                    break;
-//                }
-//            }
-//
-//            if (matches) {
-//                matchCount++;
-//                sb.append("%d.%s\n".formatted(matchCount, currentTaskDescription));
-//            }
-//        }
-//
+
         if (result.isEmpty()) {
             return "No matching tasks found for \"" + String.join(", )", keywords) + "\".";
         }
         return "Here are the matching tasks in your list:\n" + result;
-
-        return sb.toString().trim();
 
     }
 
