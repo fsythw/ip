@@ -33,6 +33,9 @@ public class InputHandler {
      * @param storage The Storage object responsible for loading and saving data.
      */
     public InputHandler(TaskList taskList, Storage storage) {
+        assert taskList != null : "TaskList cannot be null.";
+        assert storage != null : "Storage cannot be null.";
+
         this.taskList = taskList;
         this.storage = storage;
     }
@@ -77,6 +80,8 @@ public class InputHandler {
     }
 
     private String addToTaskList(Task task) throws TaskException {
+        assert task != null : "Cannot add null task.";
+
         taskList.add(task);
         storage.save(taskList);
         return "Got it. I've added this task:\n"
@@ -207,6 +212,8 @@ public class InputHandler {
      */
     public String deleteTask(String index) throws TaskException {
         int taskIndex = Integer.parseInt(index);
+        assert taskIndex > 0 && taskIndex <= taskList.size() : "taskIndex out of bounds";
+
         Task removedTask = taskList.delete(taskIndex - 1);
         storage.save(taskList);
         return "Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription())
