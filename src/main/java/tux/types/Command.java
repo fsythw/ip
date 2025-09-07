@@ -12,5 +12,6 @@ public enum Command {
     LIST,
     DELETE,
     FIND,
+    REMIND,
     UNKNOWN
 }

@@ -52,21 +52,21 @@ public class InputHandler {
         String[] parts = userInput.trim().split(" ", 2);
         String commandWord = parts[0];
         String args = parts.length > 1
-                   ? parts[1].trim()
-                   : "";
+                ? parts[1].trim()
+                : "";
 
         Command command = getInstruction(commandWord);
         try {
             return switch (command) {
-            case MARK -> markDone(args);
-            case UNMARK -> markUndone(args);
-            case TODO -> createToDo(args);
-            case DEADLINE -> createDeadline(args);
-            case EVENT -> createEvent(args);
-            case LIST -> enumerateTaskList();
-            case DELETE -> deleteTask(args);
-            case FIND -> findTask(args);
-            case UNKNOWN -> "I'm sorry, I don't recognise that command!";
+                case MARK -> markDone(args);
+                case UNMARK -> markUndone(args);
+                case TODO -> createToDo(args);
+                case DEADLINE -> createDeadline(args);
+                case EVENT -> createEvent(args);
+                case LIST -> enumerateTaskList();
+                case DELETE -> deleteTask(args);
+                case FIND -> findTask(args);
+                case UNKNOWN -> "I'm sorry, I don't recognise that command!";
             };
         } catch (TaskException e) {
             return e.getMessage();
