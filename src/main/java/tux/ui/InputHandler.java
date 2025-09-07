@@ -2,6 +2,7 @@ package tux.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,6 +67,7 @@ public class InputHandler {
                 case LIST -> enumerateTaskList();
                 case DELETE -> deleteTask(args);
                 case FIND -> findTask(args);
+                case REMIND -> remindUser();
                 case UNKNOWN -> "I'm sorry, I don't recognise that command!";
             };
         } catch (TaskException e) {
@@ -247,6 +249,31 @@ public class InputHandler {
             return "No matching tasks found for \"" + String.join(", )", keywords) + "\".";
         }
         return "Here are the matching tasks in your list:\n" + result;
+
+    }
+
+    public String remindUser() {
+        LocalDate currentDate = LocalDate.now();
+
+        String eventResult = IntStream.range(0, taskList.size())
+                .mapToObj(i -> taskList.get(i))
+                .filter(t -> t instanceof Event)
+                .filter(t -> ChronoUnit.DAYS.between(((Event) t).getTo(), currentDate) < 8)
+                .map(Task::getTaskDescription)
+                .collect(Collectors.joining("\n"));
+
+        String deadlineResult = IntStream.range(0, taskList.size())
+                .mapToObj(i -> taskList.get(i))
+                .filter(t -> t instanceof Deadline)
+                .filter(t -> ChronoUnit.DAYS.between(((Deadline) t).getBy(), currentDate) < 8)
+                .map(Task::getTaskDescription)
+                .collect(Collectors.joining("\n"));
+
+        if (eventResult.isEmpty() && deadlineResult.isEmpty()) {
+            return "No events / deadlines soon!";
+        }
+        return "Here are the upcoming events:\n" + eventResult
+                + "\nHere are the upcoming deadlines: \n" + deadlineResult;
 
     }
 
