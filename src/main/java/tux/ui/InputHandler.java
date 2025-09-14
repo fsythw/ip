@@ -59,16 +59,16 @@ public class InputHandler {
         Command command = getInstruction(commandWord);
         try {
             return switch (command) {
-                case MARK -> markDone(args);
-                case UNMARK -> markUndone(args);
-                case TODO -> createToDo(args);
-                case DEADLINE -> createDeadline(args);
-                case EVENT -> createEvent(args);
-                case LIST -> enumerateTaskList();
-                case DELETE -> deleteTask(args);
-                case FIND -> findTask(args);
-                case REMIND -> remindUser();
-                case UNKNOWN -> "I'm sorry, I don't recognise that command!";
+            case MARK -> markDone(args);
+            case UNMARK -> markUndone(args);
+            case TODO -> createToDo(args);
+            case DEADLINE -> createDeadline(args);
+            case EVENT -> createEvent(args);
+            case LIST -> enumerateTaskList();
+            case DELETE -> deleteTask(args);
+            case FIND -> findTask(args);
+            case REMIND -> remindUser();
+            case UNKNOWN -> "I'm sorry, I don't recognise that command!";
             };
         } catch (TaskException e) {
             return e.getMessage();
@@ -252,6 +252,10 @@ public class InputHandler {
 
     }
 
+    /**
+     * Returns and event or deadline that is within 7 days of the current date
+     * @return String list of tasks
+     */
     public String remindUser() {
         LocalDate currentDate = LocalDate.now();
 
