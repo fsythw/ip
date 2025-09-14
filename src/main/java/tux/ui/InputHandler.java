@@ -222,7 +222,7 @@ public class InputHandler {
         Task removedTask = taskList.delete(taskIndex - 1);
         storage.save(taskList);
         return "Noted I've removed this task: \n%s".formatted(removedTask.getTaskDescription())
-                + "\nNow you have %d tux.tasks in the list.".formatted(taskList.size());
+                + "\nNow you have %d tasks in the list.".formatted(taskList.size());
     }
 
     /**

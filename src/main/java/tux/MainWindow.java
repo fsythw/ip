@@ -26,7 +26,7 @@ public class MainWindow extends AnchorPane {
     private Tux tux;
 
     private Image tuxImage = new Image(this.getClass().getResourceAsStream("/images/tux.png"));
-    private Image toadImage = new Image(this.getClass().getResourceAsStream("/images/goose.png"));
+    private Image gooseImage = new Image(this.getClass().getResourceAsStream("/images/goose.png"));
 
     @FXML
     private void initialize() {
@@ -51,7 +51,7 @@ public class MainWindow extends AnchorPane {
         String response = tux.getResponse(input);
 
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, toadImage),
+                DialogBox.getUserDialog(input, gooseImage),
                 DialogBox.getTuxDialog(response, tuxImage)
         );
         userInput.clear();
