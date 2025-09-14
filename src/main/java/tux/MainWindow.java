@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,11 +25,14 @@ public class MainWindow extends AnchorPane {
 
     private Tux tux;
 
+    private Image tuxImage = new Image(this.getClass().getResourceAsStream("/images/tux.png"));
+    private Image toadImage = new Image(this.getClass().getResourceAsStream("/images/goose.png"));
+
     @FXML
     private void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().add(
-                DialogBox.getTuxDialog("Hello! I'm Tux. What can I do for you?") // add duke's greeting
+                DialogBox.getTuxDialog("Hello! I'm Tux. What can I do for you?", tuxImage) // add duke's greeting
         );
     }
 
@@ -47,8 +51,8 @@ public class MainWindow extends AnchorPane {
         String response = tux.getResponse(input);
 
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input),
-                DialogBox.getTuxDialog(response)
+                DialogBox.getUserDialog(input, toadImage),
+                DialogBox.getTuxDialog(response, tuxImage)
         );
         userInput.clear();
 
