@@ -1,7 +1,7 @@
 # Tux User Guide
 
 
-![Screenshot of Tux](\docs\Ui.png)
+![Screenshot of Tux](\Ui.png)
 
 Tux is a simple Java applications that helps you keep track of your tasks.
 
