@@ -36,6 +36,6 @@ public class Event extends Task {
         String fromDate = this.from.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
         String toDate = this.to.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
         return "[E]" + super.getTaskDescription()
-                + " from: %s to: %s".formatted(fromDate, toDate);
+                + " (from: %s to: %s)".formatted(fromDate, toDate);
     }
 }
