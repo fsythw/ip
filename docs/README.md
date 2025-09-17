@@ -3,13 +3,23 @@
 
 ![Screenshot of Tux](Ui.png)
 
-Tux is a simple Java applications that helps you keep track of your tasks.
+## Introduction
+Tux is a simple Java application that helps you keep track of your tasks. 
+
+Tux supports three task types:
+* Todo
+* Deadline
+* Event
+
+> [!IMPORTANT]
+>* For `date` arguments, only the ddd-MM-yyyy (eg. `01-01-2025`) format is supported.
+
 
 ## Add todos
 
 You can add a todo task by typing the command:
 
-Example: `todo buy bread`
+Example: `todo <description>`
 
 Expected outcome:
 
@@ -24,7 +34,7 @@ Now you have 3 tasks in the list.
 
 You can add a deadline task by typing the command:
 
-Example: `deadline do homework /by 2025-01-02`
+Example: `deadline <description> /by <date>`
 
 Expected outcome:
 
@@ -39,7 +49,7 @@ Now you have 3 tasks in the list.
 
 You can add a deadline task by typing the command:
 
-Example: `event hackathon /from 2025-01-01 /to 2025-01-03`
+Example: `event <description> /from <date> /to <date>`
 
 Expected outcome:
 
@@ -51,9 +61,9 @@ Now you have 3 tasks in the list.
 
 ## Marking and unmarking tasks
 
-You can mark, or complete, and unmark a task by typing the command:
+You can mark, or complete, and unmark a task:
 
-Example: `mark 2`
+Example: `mark <index>`
 
 Expected outcome:
 
@@ -64,9 +74,9 @@ Nice! I've marked this task as done:
 
 ## Delete tasks
 
-You can delete a task by typing the command:
+You can delete a task:
 
-Example: `delete 1`
+Example: `delete <index>`
 
 
 Expected outcome:
@@ -78,14 +88,15 @@ Now you have 3 tasks in the list.
 
 ## Find tasks
 
-You can search for tasks containing a keyword in their description.
+You can search for tasks containing a keyword (not case-sensitive) in their description.
 
-Example: `find party`
+Example: `find <keyword>`
 
 Expected outcome:
 ```
 Here are the matching tasks in your list:
 [E][X] attend party from: Jan 01 2025 to: Jan 02 2025
+[T][ ] buy farewell party materials
 ```
 
 # Get reminders for upcoming tasks
@@ -106,7 +117,7 @@ Here are the upcoming deadlines:
 
 ## List your tasks
 
-You can get a complete list of your tasks by typing the command:
+You can get a complete list of your tasks:
 
 Example: `list`
 
@@ -116,3 +127,7 @@ Expected outcome:
 2. [T][X] buy bread
 3. [D][ ] submit homework (by: Sep 15 2025)
 ```
+
+## Exit program
+
+Example: `bye`
