@@ -11,6 +11,9 @@ import tux.exceptions.TaskException;
 import tux.storage.Storage;
 import tux.tasks.TaskList;
 
+/**
+ * Used ChatGPT to generate invalid test cases.
+ */
 public class InputHandlerTest {
 
     private InputHandler ih;
